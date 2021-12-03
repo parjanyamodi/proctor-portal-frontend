@@ -1,4 +1,5 @@
 .App {
+  background-color: #181818;
   text-align: center;
 }
 
@@ -35,4 +36,25 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.logout {
+  color: #fd6341 !important;
+}
+.seprator {
+  color: #ffffff !important;
+}
+.home-details-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.home-details-content {
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+}
+.first-div-home {
+  align-items: left;
+  text-align: left;
 }
