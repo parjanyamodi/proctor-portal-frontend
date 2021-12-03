@@ -9,8 +9,8 @@ const Dashboard = (props) => {
           <div className="col-lg-1"></div>
           <div className="col-lg-5 first-div-home">
             <p>
-              <span className="home-details-title h2">Name : </span>
-              <span className="home-details-content">{dash.name}</span>
+              <span className="home-details-title name">Name : </span>
+              <span className="home-details-content name">{dash.name}</span>
             </p>
             <p>
               <span className="home-details-title">USN : </span>
@@ -30,7 +30,7 @@ const Dashboard = (props) => {
             </p>
           </div>
           <div className="col-lg-5">
-            <p className="home-name">Name :</p>
+            <p><img className="profile-image" src={dash.img}></img></p>
           </div>
           <div className="col-lg-1"></div>
         </div>
