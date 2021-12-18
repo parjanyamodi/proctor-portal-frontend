@@ -12,6 +12,9 @@ const MobileNavigation = (props) => {
       <a href="/contactme">
         <span> Contact Me </span>
       </a>
+      <a href="/logout">
+        <span className="logout">Logout</span>
+      </a>
     </MobileNav>
   );
 };
@@ -49,10 +52,7 @@ const MobileNav = styled.nav`
       }
       &:hover {
         span {
-          background-image: linear-gradient(90deg, #ff6e7e, #e542fe, #772cfd);
-          color: transparent;
-          -webkit-background-clip: text;
-          background-clip: text;
+          color: #7f39fb;
         }
       }
     }

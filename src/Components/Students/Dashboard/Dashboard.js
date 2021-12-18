@@ -1,6 +1,7 @@
 import NavBar from "../NavBar/NavBar";
 import dash from "./dash.js";
 const Dashboard = (props) => {
+  console.log(props);
   return (
     <>
       <NavBar />
@@ -30,7 +31,9 @@ const Dashboard = (props) => {
             </p>
           </div>
           <div className="col-lg-5">
-            <p><img className="profile-image" src={dash.img}></img></p>
+            <p>
+              <img className="profile-image" src={dash.img}></img>
+            </p>
           </div>
           <div className="col-lg-1"></div>
         </div>

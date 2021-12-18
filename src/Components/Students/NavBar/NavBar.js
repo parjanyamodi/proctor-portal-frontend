@@ -18,34 +18,34 @@ const NavBar = (props) => {
   );
 
   return (
-      <>
-    <Nav>
-      <Logo className="text-align-text align-items-center justify-content-center">
-        <a href="/home">
-          <img src="/assets/images/logo.png" alt="Parjanya Modi" />
-        </a>
-      </Logo>
-      <NavMenu>
-        <a href="/home">
-          <span> Profile </span>
-        </a>
-        <a href="/portfolio">
-          <span> Academics </span>
-        </a>
-        <a href="/contactme">
-          <span> Details </span>
-        </a>
-        <a>
+    <>
+      <Nav>
+        <Logo className="text-align-text align-items-center justify-content-center">
+          <a href="/home">
+            <img src="/assets/images/logo.png" alt="Parjanya Modi" />
+          </a>
+        </Logo>
+        <NavMenu>
+          <a href="/student/dashboard">
+            <span> Dashboard </span>
+          </a>
+          <a href="/student/marks">
+            <span> Marks </span>
+          </a>
+          <a href="/student/chat">
+            <span> Chat </span>
+          </a>
+          <a href="/logout">
             <span className="logout">Logout</span>
-        </a>
-      </NavMenu>
-      <MobiNav>
-        {open ? closeIcon : openIcon}
-        {open && <MobileNavigation />}
-      </MobiNav>
-    </Nav>
-    <hr className="seprator"/>
-</>
+          </a>
+        </NavMenu>
+        <MobiNav>
+          {open ? closeIcon : openIcon}
+          {open && <MobileNavigation />}
+        </MobiNav>
+      </Nav>
+      <hr className="seprator" />
+    </>
   );
 };
 const MobiNav = styled.div`
@@ -130,7 +130,7 @@ const NavMenu = styled.div`
       align-items: center;
       padding: 0 12px;
       span {
-        color: #ffffff;
+        color: #121212;
         font-size: 18px;
         font-weight: 700;
         letter-spacing: 0.5px;
@@ -142,10 +142,7 @@ const NavMenu = styled.div`
       }
       &:hover {
         span {
-          background-image: linear-gradient(90deg, #ff6e7e, #e542fe, #772cfd);
-          color: transparent;
-          -webkit-background-clip: text;
-          background-clip: text;
+          color: #7f39fb;
         }
       }
     }
