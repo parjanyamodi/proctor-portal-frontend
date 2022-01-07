@@ -1,16 +1,12 @@
 import styled from "styled-components";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
-import { GoogleLogout } from "react-google-login";
-import Cookies from "universal-cookie";
-
 import MobileNavigation from "./MobileNav";
-import StudentDashboard from "../Dashboard/Dashboard";
+import ProctorDashboard from "../Dashboard/Dashboard";
 import { useState } from "react";
 
-const cookies = new Cookies();
-
 const NavBar = (props) => {
+  const googleProfile = props.googleProfile;
   const [open, setOpen] = useState(false);
   const closeIcon = (
     <IoClose size="40px" color="#121212" onClick={() => setOpen(!open)} />
@@ -22,13 +18,7 @@ const NavBar = (props) => {
       onClick={() => setOpen(!open)}
     />
   );
-  const logout = () => {
-    cookies.remove("GoogleProfile");
-    cookies.remove("Token");
-    cookies.remove("studentDetails");
-    cookies.remove("studentMarks");
-    window.location.replace("/");
-  };
+
   return (
     <>
       <Nav>
@@ -38,9 +28,9 @@ const NavBar = (props) => {
           </a>
         </Logo>
         <NavMenu>
-          <a href="/student/">
+          <span onClick={<ProctorDashboard googleProfile={googleProfile} />}>
             <span> Dashboard </span>
-          </a>
+          </span>
           <a href="/student/marks">
             <span> Marks </span>
           </a>
@@ -50,11 +40,6 @@ const NavBar = (props) => {
           <a href="/logout">
             <span className="logout">Logout</span>
           </a>
-          <GoogleLogout
-            clientId="365387672860-0nufnftmst8vqpp4l2rlreje9jch3m3c.apps.googleusercontent.com"
-            buttonText="Logout"
-            onLogoutSuccess={logout}
-          ></GoogleLogout>
         </NavMenu>
         <MobiNav>
           {open ? closeIcon : openIcon}
@@ -141,7 +126,7 @@ const NavMenu = styled.div`
     position: relative;
     margin-right: 0px;
     margin-left: 25px;
-    a {
+    span {
       display: flex;
       text-decoration: none;
       align-items: center;

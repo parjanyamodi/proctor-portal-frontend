@@ -1,25 +1,23 @@
 import "./App.css";
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Components/SignIn";
 import NotFound from "./Components/NotFound/NotFound";
-import Dashboard from "./Components/Students/Dashboard/Dashboard";
+import StudentDashboard from "./Components/Students/Dashboard/Dashboard";
+import StudentMarks from "./Components/Students/Marks/Marks";
 
 function App() {
-  console.log(global.googleId);
   return (
     <div className="App">
       <Router>
         <Routes>
+          {/*Login*/}
           <Route exact path="/" element={<Login />} />
-          <Route
-            path="/student"
-            element={<Dashboard gid={global.googleId} />}
-          />
-          <Route
-            path="/student/dashboard"
-            element={<Dashboard gid={global.googleId} />}
-          />
+          {/*Student*/}
+          <Route path="/student/" element={<StudentDashboard />} />
+          <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route path="/student/marks" element={<StudentMarks />} />
+          {/*NotFound*/}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
