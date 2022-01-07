@@ -9,16 +9,10 @@ const StudentDashboard = () => {
   const Token = cookies.get("Token");
   const studentDetails = cookies.get("studentDetails");
   const studentMarks = cookies.get("studentMarks");
-  fetch(`http://localhost:4500/student/marks?usn=1BM19CS084`)
-    .then((respons) => respons.json())
-    .then((dat) => {
-      console.log(dat);
-      studentAdditionalDetails = process_details(dat);
-    });
   const process_details = (data) => {
     return [data, Object.keys(data)];
   };
-  const studentAdditionalDetails = cookies.get("studentAdditionalDetails");
+  // const studentAdditionalDetails = cookies.get("studentAdditionalDetails");
   console.log(Token);
   console.log(studentDetails);
   console.log(studentMarks);
