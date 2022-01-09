@@ -11,27 +11,30 @@ const StudentDashboard = () => {
   const [studentAdditionalDetails, setStudentAddDet] = useState("");
   // console.log(userInfo.googleId);
   // console.log(googleProfile);
-  console.log(studentAdditionalDetails);
+  // console.log(studentAdditionalDetails);
   useEffect(() => {
     fetch(`http://localhost:4500/student?sid=${userInfo.googleId}`)
       .then((response) => response.json())
       .then((dat) => {
+        // console.log(dat)
         if (dat.message === "Student Profile Not Found") {
           setstudDetail("");
-        } else {
+        } else{
           setstudDetail(dat);
-          // console.log(studentDetails)
+          console.log(studentDetails, dat)
+        if (dat){
+          fetch(`http://localhost:4500/student/details?usn=${dat["usn"]}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (dat.message === "Student Profile Not Found") {
+              setStudentAddDet("");
+            } else {
+              setStudentAddDet(JSON.parse(data["data"]));
+              console.log(studentAdditionalDetails)
+            }
+          });
         }
-      });
-      fetch(`http://localhost:4500/student/details?usn=${studentDetails["usn"]}`)
-      .then((response) => response.json())
-      .then((dat) => {
-        if (dat.message === "Student Profile Not Found") {
-          setStudentAddDet("");
-        } else {
-          setStudentAddDet(JSON.parse(dat["data"]));
-          console.log(studentAdditionalDetails)
-        }
+      }
       });
   }, []);
 
