@@ -9,6 +9,7 @@ const StudentDashboard = () => {
   const googleProfile = cookies.get("googleProfile");
   const [studentDetails, setstudDetail] = useState("abc");
   const [studentAdditionalDetails, setStudentAddDet] = useState("");
+  const [studentProctor, setStudentProctor] = useState("");
   // console.log(userInfo.googleId);
   // console.log(googleProfile);
   // console.log(studentAdditionalDetails);
@@ -21,7 +22,7 @@ const StudentDashboard = () => {
           setstudDetail("");
         } else{
           setstudDetail(dat);
-          console.log(studentDetails, dat)
+          // console.log(studentDetails, dat)
         if (dat){
           fetch(`http://localhost:4500/student/details?usn=${dat["usn"]}`)
           .then((response) => response.json())
@@ -30,7 +31,20 @@ const StudentDashboard = () => {
               setStudentAddDet("");
             } else {
               setStudentAddDet(JSON.parse(data["data"]));
-              console.log(studentAdditionalDetails)
+              // console.log(studentAdditionalDetails)
+            }
+          });
+        }
+        if (dat){
+          fetch(`http://localhost:4500/student/proctor?sid=${dat["sid"]}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data)
+            if (dat.message === "Student Proctor Not Found") {
+              setStudentProctor("");
+            } else {
+              setStudentProctor(data);
+              console.log(studentProctor)
             }
           });
         }
@@ -95,6 +109,16 @@ const StudentDashboard = () => {
                   console.log(val, index)
                   return <>
                   {val} : {studentAdditionalDetails[val]}
+                  </>
+                })}
+              </p>
+            </div>
+            <div className="row">
+              <p>
+                {Object.keys(studentProctor).map((val, index)=> {
+                  console.log(val, index)
+                  return <>
+                  {val} : {studentProctor[val]}
                   </>
                 })}
               </p>
