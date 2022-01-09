@@ -8,10 +8,10 @@ const StudentDashboard = () => {
   const userInfo = cookies.get("userInfo");
   const googleProfile = cookies.get("googleProfile");
   const [studentDetails, setstudDetail] = useState("abc");
-  // const studentAdditionalDetails = cookies.get("studentAdditionalDetails");
-  console.log(userInfo.googleId);
-  console.log(googleProfile);
-  // console.log(studentAdditionalDetails);
+  const [studentAdditionalDetails, setStudentAddDet] = useState("");
+  // console.log(userInfo.googleId);
+  // console.log(googleProfile);
+  console.log(studentAdditionalDetails);
   useEffect(() => {
     fetch(`http://localhost:4500/student?sid=${userInfo.googleId}`)
       .then((response) => response.json())
@@ -20,12 +20,22 @@ const StudentDashboard = () => {
           setstudDetail("");
         } else {
           setstudDetail(dat);
-          console.log(studentDetails)
+          // console.log(studentDetails)
+        }
+      });
+      fetch(`http://localhost:4500/student/details?usn=${studentDetails["usn"]}`)
+      .then((response) => response.json())
+      .then((dat) => {
+        if (dat.message === "Student Profile Not Found") {
+          setStudentAddDet("");
+        } else {
+          setStudentAddDet(JSON.parse(dat["data"]));
+          console.log(studentAdditionalDetails)
         }
       });
   }, []);
 
-  console.log(studentDetails);
+  // console.log(studentDetails);
   return (
     <>
       {studentDetails ? (
@@ -73,12 +83,21 @@ const StudentDashboard = () => {
                     src={googleProfile.imageUrl}
                   ></img>
                 </p>
-                <p>{String(studentDetails)}</p>
               </div>
               <div className="col-lg-1"></div>
             </div>
-            <div className="row"></div>
+            <div className="row">
+              <p>
+                {Object.keys(studentAdditionalDetails).map((val, index)=> {
+                  console.log(val, index)
+                  return <>
+                  {val} : {studentAdditionalDetails[val]}
+                  </>
+                })}
+              </p>
+            </div>
           </div>
+          
         </>
       ) : (
         <>{/*window.location.replace("/")*/}</>
