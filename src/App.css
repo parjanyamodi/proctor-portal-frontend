@@ -39,6 +39,9 @@
 }
 .table-corner {
   border: 1px solid transparent !important;
-  border-color: #b6d4fe !important;
+  border-color: #f5c2c7 !important;
   border-radius: 0.25rem !important;
+}
+.outer-box {
+  border-color: #bcbebf !important;
 }
