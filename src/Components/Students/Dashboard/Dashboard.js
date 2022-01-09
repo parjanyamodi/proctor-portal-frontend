@@ -7,7 +7,7 @@ const cookies = new Cookies();
 const StudentDashboard = () => {
   const userInfo = cookies.get("userInfo");
   const googleProfile = cookies.get("googleProfile");
-  const [studentDetails, setstudDetail] = useState("");
+  const [studentDetails, setstudDetail] = useState("abc");
   // const studentAdditionalDetails = cookies.get("studentAdditionalDetails");
   console.log(userInfo.googleId);
   console.log(googleProfile);
@@ -20,6 +20,7 @@ const StudentDashboard = () => {
           setstudDetail("");
         } else {
           setstudDetail(dat);
+          console.log(studentDetails)
         }
       });
   }, []);
