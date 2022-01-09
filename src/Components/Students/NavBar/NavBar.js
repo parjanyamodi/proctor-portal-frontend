@@ -23,10 +23,7 @@ const NavBar = (props) => {
     />
   );
   const logout = () => {
-    cookies.remove("GoogleProfile");
-    cookies.remove("Token");
-    cookies.remove("studentDetails");
-    cookies.remove("studentMarks");
+    cookies.remove("userInfo", { path: "/" });
     window.location.replace("/");
   };
   return (

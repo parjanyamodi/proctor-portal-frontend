@@ -1,25 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import NavBar from "../NavBar/NavBar";
 
 const cookies = new Cookies();
 
 const StudentDashboard = () => {
-  const googleProfile = cookies.get("GoogleProfile");
-  const Token = cookies.get("Token");
-  const studentDetails = cookies.get("studentDetails");
-  const studentMarks = cookies.get("studentMarks");
+  const userInfo = cookies.get("userInfo");
+  const googleProfile = cookies.get("googleProfile");
+  const [studentDetails, setstudDetail] = useState("");
   // const studentAdditionalDetails = cookies.get("studentAdditionalDetails");
-  console.log(Token);
-  console.log(studentDetails);
-  console.log(studentMarks);
+  console.log(userInfo.googleId);
+  console.log(googleProfile);
   // console.log(studentAdditionalDetails);
+  useEffect(() => {
+    fetch(`http://localhost:4500/student?sid=${userInfo.googleId}`)
+      .then((response) => response.json())
+      .then((dat) => {
+        if (dat.message === "Student Profile Not Found") {
+          setstudDetail("");
+        } else {
+          setstudDetail(dat);
+        }
+      });
+  }, []);
 
+  console.log(studentDetails);
   return (
     <>
       {studentDetails ? (
         <>
-          <NavBar googleProfile={googleProfile} />
+          <NavBar />
           <div className="container">
             <div className="row">
               <div className="col-lg-1"></div>
@@ -62,15 +72,15 @@ const StudentDashboard = () => {
                     src={googleProfile.imageUrl}
                   ></img>
                 </p>
+                <p>{String(studentDetails)}</p>
               </div>
               <div className="col-lg-1"></div>
             </div>
-            <div className="row">
-            </div>
+            <div className="row"></div>
           </div>
         </>
       ) : (
-        <>{window.location.replace("/")}</>
+        <>{/*window.location.replace("/")*/}</>
       )}
     </>
   );

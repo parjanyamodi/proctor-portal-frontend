@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import NavBar from "../NavBar/NavBar";
 
@@ -19,14 +19,30 @@ const process_marks = (allMarks) => {
 };
 
 const StudentMarks = () => {
-  const googleProfile = cookies.get("GoogleProfile");
-  const Token = cookies.get("Token");
-  const studentDetails = cookies.get("studentDetails");
-  const [studentMarks, semesters] = process_marks(cookies.get("studentMarks"));
-  console.log(Token);
+  const userInfo = cookies.get("userInfo");
+  const googleProfile = cookies.get("googleProfile");
+  const [studentDetails, setstudDetail] = useState("");
+  const [marks, setMarks] = useState("");
+
+  useEffect(() => {
+    fetch(`http://localhost:4500/student?sid=${userInfo.googleId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message === "Student Profile Not Found") {
+          setstudDetail("");
+        } else {
+          fetch(`http://localhost:4500/student/marks?usn=${data.usn}`)
+            .then((response) => response.json())
+            .then((dat) => {
+              setMarks(dat);
+            });
+        }
+      });
+  }, []);
+  console.log(marks);
+  const [studentMarks, semesters] = process_marks(marks);
   console.log(studentDetails);
   console.log(studentMarks);
-
   return (
     <>
       {studentDetails ? (
@@ -82,7 +98,7 @@ const StudentMarks = () => {
           </div>
         </>
       ) : (
-        <>{window.location.replace("/")}</>
+        <>{/*window.location.replace("/")*/}</>
       )}
     </>
   );
