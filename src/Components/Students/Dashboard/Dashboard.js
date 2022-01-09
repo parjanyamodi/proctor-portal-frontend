@@ -9,14 +9,11 @@ const StudentDashboard = () => {
   const Token = cookies.get("Token");
   const studentDetails = cookies.get("studentDetails");
   const studentMarks = cookies.get("studentMarks");
-  const process_details = (data) => {
-    return [data, Object.keys(data)];
-  };
   // const studentAdditionalDetails = cookies.get("studentAdditionalDetails");
   console.log(Token);
   console.log(studentDetails);
   console.log(studentMarks);
-  console.log(studentAdditionalDetails);
+  // console.log(studentAdditionalDetails);
 
   return (
     <>
@@ -69,11 +66,6 @@ const StudentDashboard = () => {
               <div className="col-lg-1"></div>
             </div>
             <div className="row">
-              {studentAdditionalDetails ? (
-                <p>{String(studentAdditionalDetails)}</p>
-              ) : (
-                <p>No</p>
-              )}
             </div>
           </div>
         </>
