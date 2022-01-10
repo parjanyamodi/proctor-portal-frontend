@@ -6,6 +6,7 @@ import NotFound from "./Components/NotFound/NotFound";
 import StudentDashboard from "./Components/Students/Dashboard/Dashboard";
 import StudentMarks from "./Components/Students/Marks/Marks";
 import StudentChat from "./Components/Students/Chat/Chat";
+import ProctorDashboard from "./Components/Proctor/Dashboard/Dashboard";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/student/marks" element={<StudentMarks />} />
           <Route path="/student/chat" element={<StudentChat />} />
           {/*NotFound*/}
+          <Route path="/proctor/" element={<ProctorDashboard/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
