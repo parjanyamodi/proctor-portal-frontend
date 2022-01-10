@@ -47,7 +47,7 @@ function Login() {
       )}
       {data.role === "student" ? (
         window.location.replace("/student/")
-      ) : data.role === "proctor" ? (
+      ) : data.role === "Proctor" ? (
         window.location.replace("/proctor/")
       ) : (
         <></>
