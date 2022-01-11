@@ -1,20 +1,39 @@
 import styled from "styled-components";
+import Cookies from "universal-cookie";
+import { GoogleLogout } from "react-google-login";
+
+const cookies = new Cookies();
 
 const MobileNavigation = (props) => {
+  const logout = () => {
+    cookies.remove("userInfo", { path: "/" });
+    window.location.replace("/");
+  };
   return (
     <MobileNav>
-      <a href="/home">
-        <span> Home </span>
+      <a href="/student/">
+        <span> Dashboard </span>
       </a>
-      <a href="/portfolio">
-        <span> Portfolio </span>
+      <a href="/student/marks">
+        <span> Marks </span>
       </a>
-      <a href="/contactme">
-        <span> Contact Me </span>
+      <a href="/student/chat">
+        <span> Chat </span>
       </a>
-      <a href="/logout">
-        <span className="logout">Logout</span>
-      </a>
+      <GoogleLogout
+        clientId="365387672860-0nufnftmst8vqpp4l2rlreje9jch3m3c.apps.googleusercontent.com"
+        render={(renderProps) => (
+          <button
+            className="btn btn-danger"
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+          >
+            <strong>Logout</strong>
+          </button>
+        )}
+        buttonText="Logout"
+        onLogoutSuccess={logout}
+      ></GoogleLogout>
     </MobileNav>
   );
 };

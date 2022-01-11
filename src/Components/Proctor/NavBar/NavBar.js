@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import MobileNavigation from "./MobileNav";
-import ProctorDashboard from "../Dashboard/Dashboard";
 import { useState } from "react";
+import { GoogleLogout } from "react-google-login";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const NavBar = (props) => {
-  const googleProfile = props.googleProfile;
   const [open, setOpen] = useState(false);
   const closeIcon = (
     <IoClose size="40px" color="#121212" onClick={() => setOpen(!open)} />
@@ -18,6 +19,10 @@ const NavBar = (props) => {
       onClick={() => setOpen(!open)}
     />
   );
+  const logout = () => {
+    cookies.remove("userInfo", { path: "/" });
+    window.location.replace("/");
+  };
 
   return (
     <>
@@ -28,18 +33,29 @@ const NavBar = (props) => {
           </a>
         </Logo>
         <NavMenu>
-          <span onClick={<ProctorDashboard googleProfile={googleProfile} />}>
+          <a href="/proctor/">
             <span> Dashboard </span>
-          </span>
-          <a href="/student/marks">
-            <span> Marks </span>
           </a>
-          <a href="/student/chat">
+          <a href="/proctor/students">
+            <span> Students </span>
+          </a>
+          <a href="/proctor/chat">
             <span> Chat </span>
           </a>
-          <a href="/logout">
-            <span className="logout">Logout</span>
-          </a>
+          <GoogleLogout
+            clientId="365387672860-0nufnftmst8vqpp4l2rlreje9jch3m3c.apps.googleusercontent.com"
+            render={(renderProps) => (
+              <button
+                className="btn btn-danger"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <strong>Logout</strong>
+              </button>
+            )}
+            buttonText="Logout"
+            onLogoutSuccess={logout}
+          ></GoogleLogout>
         </NavMenu>
         <MobiNav>
           {open ? closeIcon : openIcon}
@@ -126,7 +142,7 @@ const NavMenu = styled.div`
     position: relative;
     margin-right: 0px;
     margin-left: 25px;
-    span {
+    a {
       display: flex;
       text-decoration: none;
       align-items: center;
@@ -153,5 +169,4 @@ const NavMenu = styled.div`
     display: none;
   }
 `;
-
 export default NavBar;

@@ -5,7 +5,6 @@ import { GoogleLogout } from "react-google-login";
 import Cookies from "universal-cookie";
 
 import MobileNavigation from "./MobileNav";
-import StudentDashboard from "../Dashboard/Dashboard";
 import { useState } from "react";
 
 const cookies = new Cookies();
@@ -44,11 +43,17 @@ const NavBar = (props) => {
           <a href="/student/chat">
             <span> Chat </span>
           </a>
-          <a href="/logout">
-            <span className="logout">Logout</span>
-          </a>
           <GoogleLogout
             clientId="365387672860-0nufnftmst8vqpp4l2rlreje9jch3m3c.apps.googleusercontent.com"
+            render={(renderProps) => (
+              <button
+                className="btn btn-danger"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <strong>Logout</strong>
+              </button>
+            )}
             buttonText="Logout"
             onLogoutSuccess={logout}
           ></GoogleLogout>

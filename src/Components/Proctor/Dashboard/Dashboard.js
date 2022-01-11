@@ -4,20 +4,18 @@ import NavBar from "../NavBar/NavBar";
 
 const cookies = new Cookies();
 
-
 const ProctorDashboard = () => {
-  
   const userInfo = cookies.get("userInfo");
   const googleProfile = cookies.get("googleProfile");
-  const [proctorProfile, setproctorprofile] = useState("")
-  useEffect(()=> {
+  const [proctorProfile, setproctorprofile] = useState("");
+  useEffect(() => {
     fetch(`http://localhost:4500/proctor?pid=${userInfo.googleId}`)
       .then((response) => response.json())
       .then((dat) => {
-        console.log(dat)
-        setproctorprofile(dat)
-      })
-  }, [])
+        console.log(dat);
+        setproctorprofile(dat);
+      });
+  }, []);
   return (
     <>
       <NavBar googleProfile={googleProfile} />
@@ -27,23 +25,33 @@ const ProctorDashboard = () => {
           <div className="col-lg-5 first-div-home">
             <p>
               <span className="home-details-title name">Name : </span>
-              <span className="home-details-content name">{proctorProfile.name}</span>
+              <span className="home-details-content name">
+                {proctorProfile.name}
+              </span>
             </p>
             <p>
               <span className="home-details-title">Phone Number : </span>
-              <span className="home-details-content">{proctorProfile.phoneNumber}</span>
+              <span className="home-details-content">
+                {proctorProfile.phoneNumber}
+              </span>
             </p>
             <p>
               <span className="home-details-title">Email : </span>
-              <span className="home-details-content">{proctorProfile.email}</span>
+              <span className="home-details-content">
+                {proctorProfile.email}
+              </span>
             </p>
             <p>
               <span className="home-details-title">Department : </span>
-              <span className="home-details-content">{proctorProfile.department}</span>
+              <span className="home-details-content">
+                {proctorProfile.department}
+              </span>
             </p>
             <p>
               <span className="home-details-title">Designation : </span>
-              <span className="home-details-content">{proctorProfile.designation}</span>
+              <span className="home-details-content">
+                {proctorProfile.designation}
+              </span>
             </p>
           </div>
           <div className="col-lg-5">

@@ -35,7 +35,15 @@ function Login() {
       {gId === "" ? (
         <GoogleLogin
           clientId={clientId}
-          buttonText="Login"
+          render={(renderProps) => (
+            <button
+              className="btn btn-primary"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              <strong>Login with Google</strong>
+            </button>
+          )}
           onSuccess={onSuccess}
           onFailure={onFailure}
           cookiePolicy={"single_host_origin"}
