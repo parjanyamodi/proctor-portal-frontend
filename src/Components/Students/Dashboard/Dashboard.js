@@ -18,7 +18,9 @@ const StudentDashboard = () => {
         if (dat.message === "Student Profile Not Found") {
           setstudDetail("");
         } else {
+          dat.img=googleProfile.imageUrl.substr(0, googleProfile.imageUrl.length - 6)
           setstudDetail(dat);
+
           if (dat) {
             fetch(`http://localhost:4500/student/details?usn=${dat["usn"]}`)
               .then((response) => response.json())
@@ -39,6 +41,16 @@ const StudentDashboard = () => {
                   setStudentProctor("");
                 } else {
                   setStudentProctor(data);
+                }
+                if (dat) {
+                  fetch(`http://localhost:4500/student`,{
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dat)})
+                    .then((response) => response.json())
+                    .then((data) => {
+                      console.log("Student Profile Updated", data)
+                    });
                 }
               });
           }

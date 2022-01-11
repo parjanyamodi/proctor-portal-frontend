@@ -13,7 +13,17 @@ const ProctorDashboard = () => {
       .then((response) => response.json())
       .then((dat) => {
         console.log(dat);
+        dat.img=googleProfile.imageUrl.substr(0, googleProfile.imageUrl.length - 6)
         setproctorprofile(dat);
+        if(dat)
+        fetch(`http://localhost:4500/proctor`,{
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(dat)})
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Proctor Profile Updated", data)
+              });
       });
   }, []);
   return (
