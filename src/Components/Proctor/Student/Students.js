@@ -1,6 +1,35 @@
 import NavBar from "../NavBar/NavBar";
+import React, { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const ProctorStudents = () => {
+  const processStudents = (students)=> {
+    var semesters = semester
+    students.map((val)=>{
+      if(!semesters.includes(val.semester))
+        semesters.push(val.semester)
+    })
+    setSemester(semester)
+    return
+  }
+  const [semester, setSemester] = useState([])
+  const userInfo = cookies.get("userInfo");
+  const googleProfile = cookies.get("googleProfile");
+  console.log(userInfo)
+  const [students, setStudents] = useState([])
+  const [selection, setSelection] = useState("All")
+  useEffect(() => {
+    fetch(`http://localhost:4500/proctor/students?pid=${userInfo.googleId}`)
+    .then((res) => res.json())
+    .then((data)=> {
+      console.log(data)
+      processStudents(data)
+      setStudents(data)
+    })
+  }, [])
+
   return (
     <>
       <NavBar googleProfile={googleProfile} />
@@ -35,95 +64,69 @@ const ProctorStudents = () => {
             ) : (
               <>{/*dca*/}</>
             )}
-            {semesters.map((sem, val) => {
-              return (
-                <div class="alert alert-light outer-box" role="alert">
+            
+             <div class="alert alert-light outer-box" role="alert">
                   <div class="alert alert-danger" role="alert">
                     <p>
                       <strong>
-                        <span class="pull-left">Semester {sem}</span>
+                        <span class="pull-left">Semester </span>
 
                         <span class="pull-right">
                           SGPA :
-                          {" " +
-                            studentMarks[sem][studentMarks[sem].length - 1] +
-                            " "}
+                          
                         </span>
                         <span class="pull-right">
                           Total Credits :
-                          {" " +
-                            studentMarks[sem][studentMarks[sem].length - 2] +
-                            " "}
+                          
                           &emsp;&emsp;&emsp;&emsp;
                         </span>
                       </strong>
                     </p>
                   </div>
-
+                  <div>
+                  {
+                    semester.map((val, index)=> {
+                      return (<button type="button" onClick={()=>setSelection(val)}>Semester {val}</button>)
+                    })
+                  }
+                  <button type="button" onClick={()=>setSelection("All")}>All</button>
+                  </div>
                   <table class="table table-danger table-hover table-striped table-corner">
                     <thead class="table-danger">
                       <tr class="table-danger">
                         <th class="table-danger" scope="col">
                           #
                         </th>
-                        <th class="table-danger" scope="col">
-                          Course Code
+                        <th>
+                          Name
                         </th>
-                        <th class="table-danger" scope="col">
-                          Course Title
-                        </th>
-                        <th class="table-danger" scope="col">
-                          Credits
-                        </th>
-                        <th class="table-danger" scope="col">
-                          Faculty
-                        </th>
-                        <th class="table-danger" scope="col">
-                          Attendance
-                        </th>
-                        <th class="table-danger" scope="col">
-                          Internal
-                        </th>
-                        <th class="table-danger" scope="col">
-                          SEE
-                        </th>
-                        <th class="table-danger" scope="col">
-                          Grade
-                        </th>
-                        <th class="table-danger" scope="col">
-                          Year
+                        <th>
+                          Semester
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {studentMarks[sem].map((value, index) => {
-                        if (value.cid)
-                          return (
-                            <tr class="table-danger">
-                              <th class="table-danger" scope="row">
-                                {index + 1}
-                              </th>
-                              <td class="table-danger">{value["cid"]}</td>
-                              <td class="table-danger">{value["title"]}</td>
-                              <td class="table-danger">{value["credits"]}</td>
-                              <td class="table-danger">
-                                {value["course_faculty"]}
-                              </td>
-                              <td class="table-danger">
-                                {value["attendance"]}
-                              </td>
-                              <td class="table-danger">{value["internal"]}</td>
-                              <td class="table-danger">{value["see"]}</td>
-                              <td class="table-danger">{value["grade"]}</td>
-                              <td class="table-danger">{value["year"]}</td>
-                            </tr>
-                          );
-                      })}
+                      {students.map((val, index)=> {
+                        if(val.semester === selection | selection === "All")
+                        return (
+                          <>
+                          <td>
+                            {index+1}
+                          </td>
+                          <td>
+                            {val.name}
+                          </td>
+                          <td>
+                            {val.semester}
+                          </td>
+                          </>
+                        )
+                      })
+
+                      }
                     </tbody>
                   </table>
                 </div>
-              );
-            })}
           </div>
         </div>
       </div>

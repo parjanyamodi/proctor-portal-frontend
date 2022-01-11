@@ -7,7 +7,7 @@ import StudentDashboard from "./Components/Students/Dashboard/Dashboard";
 import StudentMarks from "./Components/Students/Marks/Marks";
 import StudentChat from "./Components/Students/Chat/Chat";
 import ProctorDashboard from "./Components/Proctor/Dashboard/Dashboard";
-//import ProctorStudents from "./Components/Proctor/Student/Students";
+import ProctorStudents from "./Components/Proctor/Student/Students";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="/student/chat" element={<StudentChat />} />
           {/*NotFound*/}
           <Route path="/proctor/" element={<ProctorDashboard />} />
-          {/*<Route path="/proctor/students" element={<ProctorStudents />} />*/}
+          <Route path="/proctor/students" element={<ProctorStudents />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
