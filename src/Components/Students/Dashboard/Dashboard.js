@@ -10,45 +10,39 @@ const StudentDashboard = () => {
   const [studentDetails, setstudDetail] = useState("abc");
   const [studentAdditionalDetails, setStudentAddDet] = useState("");
   const [studentProctor, setStudentProctor] = useState("");
-  // console.log(userInfo.googleId);
-  // console.log(googleProfile);
-  // console.log(studentAdditionalDetails);
+
   useEffect(() => {
     fetch(`http://localhost:4500/student?sid=${userInfo.googleId}`)
       .then((response) => response.json())
       .then((dat) => {
-        // console.log(dat)
         if (dat.message === "Student Profile Not Found") {
           setstudDetail("");
-        } else{
+        } else {
           setstudDetail(dat);
-          // console.log(studentDetails, dat)
-        if (dat){
-          fetch(`http://localhost:4500/student/details?usn=${dat["usn"]}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (dat.message === "Student Profile Not Found") {
-              setStudentAddDet("");
-            } else {
-              setStudentAddDet(JSON.parse(data["data"]));
-              // console.log(studentAdditionalDetails)
-            }
-          });
+          if (dat) {
+            fetch(`http://localhost:4500/student/details?usn=${dat["usn"]}`)
+              .then((response) => response.json())
+              .then((data) => {
+                if (dat.message === "Student Profile Not Found") {
+                  setStudentAddDet("");
+                } else {
+                  setStudentAddDet(JSON.parse(data["data"]));
+                }
+              });
+          }
+          if (dat) {
+            fetch(`http://localhost:4500/student/proctor?sid=${dat["sid"]}`)
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data);
+                if (dat.message === "Student Proctor Not Found") {
+                  setStudentProctor("");
+                } else {
+                  setStudentProctor(data);
+                }
+              });
+          }
         }
-        if (dat){
-          fetch(`http://localhost:4500/student/proctor?sid=${dat["sid"]}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data)
-            if (dat.message === "Student Proctor Not Found") {
-              setStudentProctor("");
-            } else {
-              setStudentProctor(data);
-              console.log(studentProctor)
-            }
-          });
-        }
-      }
       });
   }, []);
 
@@ -60,71 +54,75 @@ const StudentDashboard = () => {
           <NavBar />
           <div className="container">
             <div className="row">
-              <div className="col-lg-1"></div>
-              <div className="col-lg-5 first-div-home">
-                <p>
-                  <span className="home-details-title name">Name : </span>
-                  <span className="home-details-content name">
-                    {googleProfile.name}
-                  </span>
-                </p>
-                <p>
-                  <span className="home-details-title">USN : </span>
-                  <span className="home-details-content">
-                    {studentDetails.usn}
-                  </span>
-                </p>
-                <p>
-                  <span className="home-details-title">Email : </span>
-                  <span className="home-details-content">
-                    {googleProfile.email}
-                  </span>
-                </p>
-                <p>
-                  <span className="home-details-title">Department : </span>
-                  <span className="home-details-content">
-                    {studentDetails.department}
-                  </span>
-                </p>
-                <p>
-                  <span className="home-details-title">Gender : </span>
-                  <span className="home-details-content">
-                    {studentDetails.gender}
-                  </span>
-                </p>
+              <div className="col-6 first-div-home">
+                <div class="card text-center">
+                  <div class="card-header">
+                    Dept. of {studentDetails.department}
+                  </div>
+                  <div class="card-body">
+                    <img
+                      class="card-img-top profile-image"
+                      src={googleProfile.imageUrl.substr(
+                        0,
+                        googleProfile.imageUrl.length - 6
+                      )}
+                      alt="Card image cap"
+                    />
+                    <h3 class="card-title">{studentDetails.name}</h3>
+                    <h5 class="card-title">{studentDetails.usn}</h5>
+                    <p class="card-text">
+                      <a href={"mailto:" + googleProfile.email}>
+                        {googleProfile.email}
+                      </a>
+                    </p>
+                    <h6 class="card-text">{studentDetails.gender}</h6>
+                    <h6 class="card-text">{studentDetails.phno}</h6>
+                    <h6 class="card-text">
+                      Semester : {studentDetails.semester}
+                    </h6>
+                  </div>
+                </div>
               </div>
-              <div className="col-lg-5">
-                <p>
-                  <img
-                    className="profile-image"
-                    src={googleProfile.imageUrl}
-                  ></img>
-                </p>
+              <div className="col-6 first-div-home">
+                <div class="card text-center">
+                  <div class="card-header">
+                    Dept. of {studentProctor.department}
+                  </div>
+                  <div class="card-body">
+                    <img
+                      class="card-img-top profile-image"
+                      src={studentProctor.image}
+                      alt="Card image cap"
+                    />
+                    <h3 class="card-title">{studentProctor.name}</h3>
+                    <h6 class="card-title">{studentProctor.designation}</h6>
+                    <h5 class="card-title">{studentProctor.qualifications}</h5>
+                    <p class="card-text">
+                      <a href={"mailto:" + studentProctor.email}>
+                        {studentProctor.email}
+                      </a>
+                    </p>
+                    <h6 class="card-text">{studentProctor.phoneNumber}</h6>
+                  </div>
+                </div>
               </div>
-              <div className="col-lg-1"></div>
             </div>
             <div className="row">
               <p>
-                {Object.keys(studentAdditionalDetails).map((val, index)=> {
-                  console.log(val, index)
-                  return <>
-                  {val} : {studentAdditionalDetails[val]}
-                  </>
+                {Object.keys(studentAdditionalDetails).map((val, index) => {
+                  console.log(val, index);
+                  return (
+                    <>
+                      {val} : {studentAdditionalDetails[val]}
+                    </>
+                  );
                 })}
               </p>
             </div>
             <div className="row">
-              <p>
-                {Object.keys(studentProctor).map((val, index)=> {
-                  console.log(val, index)
-                  return <>
-                  {val} : {studentProctor[val]}
-                  </>
-                })}
-              </p>
+              <p></p>
             </div>
           </div>
-          
         </>
       ) : (
         <>{/*window.location.replace("/")*/}</>

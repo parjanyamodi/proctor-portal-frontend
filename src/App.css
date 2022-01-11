@@ -45,3 +45,7 @@
 .outer-box {
   border-color: #bcbebf !important;
 }
+.profile-image {
+  border-radius: 50%;
+  width: 200px;
+}
