@@ -9,8 +9,8 @@ const Chat = () => {
       <ChatEngine
       height="80vh"
       projectID="8c1e8a7e-17ab-48a7-8220-b03d8e983494"
-      userName="VJ"
-      userSecret="1212"
+      userName="Vijayeshjeevan (Proctor)"
+      userSecret="Vijayeshjeevan (Proctor)"
       />
     </>
   );
