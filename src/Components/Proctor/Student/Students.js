@@ -14,12 +14,47 @@ const ProctorStudents = () => {
     setSemester(semester)
     return
   }
+  const updateSelection = (sid)=>{
+    fetch(`http://localhost:4500/student?sid=${sid}`)
+    .then((res) => res.json())
+    .then((data)=> {
+      // console.log(data)
+      // processStudents(data)
+      var cs = selection
+      cs['profile'] = data
+      setSelection(selection)
+      // console.log(selection)
+    })
+    if(selection && selection['profile'])
+    fetch(`http://localhost:4500/student/marks?usn=${selection.profile.usn}`)
+    .then((res) => res.json())
+    .then((data)=> {
+      // console.log(data)
+      // processStudents(data)
+      var cs=selection
+      cs['marks'] = data
+      setSelection(cs)
+      // console.log(selection)
+    })
+    if(selection && selection['profile'])
+    fetch(`http://localhost:4500/student/details?usn=${selection.profile.usn}`)
+    .then((res) => res.json())
+    .then((data)=> {
+      // console.log(data)
+      // processStudents(data)
+      var cs=selection
+      cs['details'] = data
+      setSelection(cs)
+      console.log(selection)
+    })
+  }
   const [semester, setSemester] = useState([])
   const userInfo = cookies.get("userInfo");
   const googleProfile = cookies.get("googleProfile");
   console.log(userInfo)
   const [students, setStudents] = useState([])
-  const [selection, setSelection] = useState("All")
+  const [semSelection, setsemSelection] = useState("All")
+  const [selection, setSelection] = useState({})
   useEffect(() => {
     fetch(`http://localhost:4500/proctor/students?pid=${userInfo.googleId}`)
     .then((res) => res.json())
@@ -86,10 +121,10 @@ const ProctorStudents = () => {
                   <div>
                   {
                     semester.map((val, index)=> {
-                      return (<button type="button" onClick={()=>setSelection(val)}>Semester {val}</button>)
+                      return (<button type="button" onClick={()=>setsemSelection(val)}>Semester {val}</button>)
                     })
                   }
-                  <button type="button" onClick={()=>setSelection("All")}>All</button>
+                  <button type="button" onClick={()=>setsemSelection("All")}>All</button>
                   </div>
                   <table class="table table-danger table-hover table-striped table-corner">
                     <thead class="table-danger">
@@ -107,7 +142,7 @@ const ProctorStudents = () => {
                     </thead>
                     <tbody>
                       {students.map((val, index)=> {
-                        if(val.semester === selection | selection === "All")
+                        if(val.semester === semSelection | semSelection === "All")
                         return (
                           <>
                           <td>
@@ -118,6 +153,9 @@ const ProctorStudents = () => {
                           </td>
                           <td>
                             {val.semester}
+                          </td>
+                          <td>
+                            {<button type="button" onClick={()=> {updateSelection(val.sid)}}>View Details {val.sid}</button>}
                           </td>
                           </>
                         )
