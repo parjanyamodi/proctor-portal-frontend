@@ -131,7 +131,7 @@ const StudentMarks = () => {
                       </div>
 
                       <table class="table table-danger table-hover table-striped table-corner">
-                        <thead>
+                        <thead class="table-danger">
                           <tr class="table-danger">
                             <th class="table-danger" scope="col">
                               #
