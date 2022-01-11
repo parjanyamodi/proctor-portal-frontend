@@ -5,6 +5,44 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 const ProctorStudents = () => {
+  const get_gp = (grade) => {
+    // console.log(grade);
+    if (grade === "S") return 10;
+    else if (grade === "A") return 9;
+    else if (grade === "B") return 8;
+    else if (grade === "C") return 7;
+    else if (grade === "D") return 6;
+    else return 5;
+  };
+  
+  const get_sgpas = (marks) => {
+    var keys = Object.keys(marks);
+    keys.forEach((sem) => {
+      let credits_total = 0;
+      let sgpa = 0;
+      marks[sem].forEach((mark) => {
+        var credits = parseInt(mark.credits);
+        credits_total += credits;
+        sgpa += credits * get_gp(mark.grade);
+        // console.log(sgpa);
+      });
+      marks[sem].push(credits_total);
+      marks[sem].push(sgpa / credits_total);
+    });
+  };
+  
+  const process_marks = (allMarks) => {
+    var marks = {};
+    for (const mark of allMarks) {
+      if (marks[mark["semester"]]) {
+        marks[mark["semester"]].push(mark);
+      } else {
+        marks[mark["semester"]] = [mark];
+      }
+    }
+    get_sgpas(marks);
+    return [marks, Object.keys(marks)];
+  };
   const processStudents = (students)=> {
     var semesters = semester
     students.map((val)=>{
@@ -14,37 +52,38 @@ const ProctorStudents = () => {
     setSemester(semester)
     return
   }
-  const updateSelection = (sid)=>{
-    fetch(`http://localhost:4500/student?sid=${sid}`)
+  const updateSelection =async (sid)=>{
+    await fetch(`http://localhost:4500/student?sid=${sid}`)
     .then((res) => res.json())
     .then((data)=> {
       // console.log(data)
       // processStudents(data)
-      var cs = selection
+      var cs = selection[0]
+      cs.untouched=false
       cs['profile'] = data
-      setSelection(selection)
-      // console.log(selection)
+      setSelection([cs])
+      console.log(selection)
     })
-    if(selection && selection['profile'])
-    fetch(`http://localhost:4500/student/marks?usn=${selection.profile.usn}`)
+    if(selection[0] && selection[0]['profile'])
+    await fetch(`http://localhost:4500/student/marks?usn=${selection[0].profile.usn}`)
     .then((res) => res.json())
     .then((data)=> {
       // console.log(data)
       // processStudents(data)
-      var cs=selection
-      cs['marks'] = data
-      setSelection(cs)
-      // console.log(selection)
+      var cs=selection[0]
+      cs['marks'] = process_marks(data)
+      setSelection([cs])
+      console.log(selection)
     })
-    if(selection && selection['profile'])
-    fetch(`http://localhost:4500/student/details?usn=${selection.profile.usn}`)
+    if(selection[0] && selection[0]['profile'])
+    await fetch(`http://localhost:4500/student/details?usn=${selection[0].profile.usn}`)
     .then((res) => res.json())
     .then((data)=> {
       // console.log(data)
       // processStudents(data)
-      var cs=selection
+      var cs=selection[0]
       cs['details'] = data
-      setSelection(cs)
+      setSelection([cs])
       console.log(selection)
     })
   }
@@ -54,7 +93,7 @@ const ProctorStudents = () => {
   console.log(userInfo)
   const [students, setStudents] = useState([])
   const [semSelection, setsemSelection] = useState("All")
-  const [selection, setSelection] = useState({})
+  const [selection, setSelection] = useState([{untouched: true}])
   useEffect(() => {
     fetch(`http://localhost:4500/proctor/students?pid=${userInfo.googleId}`)
     .then((res) => res.json())
@@ -164,6 +203,10 @@ const ProctorStudents = () => {
                       }
                     </tbody>
                   </table>
+                </div>
+                <div>
+                  {<p>{JSON.stringify(selection)}</p>}
+                   {/* (!selection.untouched) ? <>{JSON.stringify(selection)}</>: <><p>hi</p></>} */}
                 </div>
           </div>
         </div>
