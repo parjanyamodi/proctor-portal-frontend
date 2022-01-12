@@ -31,7 +31,8 @@ const StudentDashboard = () => {
                 if (dat.message === "Student Profile Not Found") {
                   setStudentAddDet("");
                 } else {
-                  setStudentAddDet(JSON.parse(data["data"]));
+                  var value = JSON.parse(data["data"])
+                  setStudentAddDet([value]);
                 }
               });
           }
@@ -126,7 +127,7 @@ const StudentDashboard = () => {
               </div>
             </div>
             <div className="row">
-              <p>{studentAdditionalDetails}</p>
+              <p>{JSON.stringify(studentAdditionalDetails)}</p>
             </div>
             <div className="row">
               <p></p>
