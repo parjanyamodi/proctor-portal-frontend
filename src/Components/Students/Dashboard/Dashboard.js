@@ -8,7 +8,7 @@ const StudentDashboard = () => {
   const userInfo = cookies.get("userInfo");
   const googleProfile = cookies.get("googleProfile");
   const [studentDetails, setstudDetail] = useState("abc");
-  const [studentAdditionalDetails, setStudentAddDet] = useState("");
+  const [studentAdditionalDetails, setStudentAddDet] = useState({});
   const [studentProctor, setStudentProctor] = useState("");
 
   useEffect(() => {
@@ -31,8 +31,8 @@ const StudentDashboard = () => {
                 if (dat.message === "Student Profile Not Found") {
                   setStudentAddDet("");
                 } else {
-                  var value = JSON.parse(data["data"])
-                  setStudentAddDet([value]);
+                  var value = JSON.parse(data["data"]);
+                  setStudentAddDet(value);
                 }
               });
           }
@@ -71,7 +71,7 @@ const StudentDashboard = () => {
           <NavBar />
           <div className="container">
             <div className="row">
-              <div className="col-6 first-div-home">
+              <div className="col-lg-6 mt-3 first-div-home">
                 <div class="card text-center">
                   <div class="card-header">
                     Dept. of {studentDetails.department}
@@ -100,7 +100,7 @@ const StudentDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-6 first-div-home">
+              <div className="col-lg-6 mt-3 first-div-home">
                 <div class="card text-center">
                   <div class="card-header">
                     Dept. of {studentProctor.department}
@@ -127,7 +127,20 @@ const StudentDashboard = () => {
               </div>
             </div>
             <div className="row">
-              <p>{JSON.stringify(studentAdditionalDetails)}</p>
+              <div className="col-12 mt-3">
+                <div class="card text-left">
+                  <div class="card-header">Additional Details of Student</div>
+                  <div class="card-body">
+                    {Object.keys(studentAdditionalDetails).map((val) => {
+                      return (
+                        <p>
+                          {val} : {studentAdditionalDetails[val]}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="row">
               <p></p>
