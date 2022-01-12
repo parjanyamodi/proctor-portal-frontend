@@ -30,7 +30,7 @@ const NavBar = (props) => {
       <Nav>
         <Logo className="text-align-text align-items-center justify-content-center">
           <a href="/home">
-            <img src="/assets/images/logo.png" alt="Parjanya Modi" />
+            <img src="/assets/bmsce_logo.jpeg" alt="BMSCE" />
           </a>
         </Logo>
         <NavMenu>
@@ -111,8 +111,9 @@ const Logo = styled.div`
     display: flex;
     flex-flow: row nowrap;
     img {
+      margin-left: 100px;
       display: flex;
-      width: 250px;
+      width: 350px;
     }
   }
   @media (max-width: 992px) {
@@ -125,8 +126,9 @@ const Logo = styled.div`
     display: flex;
     flex-flow: row nowrap;
     img {
+      margin-left: 70px;
       display: flex;
-      width: 100%;
+      width: 200px;
     }
   }
 `;

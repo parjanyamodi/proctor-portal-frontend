@@ -13,17 +13,21 @@ const ProctorDashboard = () => {
       .then((response) => response.json())
       .then((dat) => {
         console.log(dat);
-        dat.img=googleProfile.imageUrl.substr(0, googleProfile.imageUrl.length - 6)
+        dat.img = googleProfile.imageUrl.substr(
+          0,
+          googleProfile.imageUrl.length - 6
+        );
         setproctorprofile(dat);
-        if(dat)
-        fetch(`http://localhost:4500/proctor`,{
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(dat)})
-              .then((response) => response.json())
-              .then((data) => {
-                console.log("Proctor Profile Updated", data)
-              });
+        if (dat)
+          fetch(`http://localhost:4500/proctor`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dat),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Proctor Profile Updated", data);
+            });
       });
   }, []);
   return (
@@ -31,45 +35,35 @@ const ProctorDashboard = () => {
       <NavBar googleProfile={googleProfile} />
       <div className="container">
         <div className="row">
-          <div className="col-lg-1"></div>
-          <div className="col-lg-5 first-div-home">
-            <p>
-              <span className="home-details-title name">Name : </span>
-              <span className="home-details-content name">
-                {proctorProfile.name}
-              </span>
-            </p>
-            <p>
-              <span className="home-details-title">Phone Number : </span>
-              <span className="home-details-content">
-                {proctorProfile.phoneNumber}
-              </span>
-            </p>
-            <p>
-              <span className="home-details-title">Email : </span>
-              <span className="home-details-content">
-                {proctorProfile.email}
-              </span>
-            </p>
-            <p>
-              <span className="home-details-title">Department : </span>
-              <span className="home-details-content">
-                {proctorProfile.department}
-              </span>
-            </p>
-            <p>
-              <span className="home-details-title">Designation : </span>
-              <span className="home-details-content">
-                {proctorProfile.designation}
-              </span>
-            </p>
+          <div className="col-12 first-div-home">
+            <div class="card text-center">
+              <div class="card-header">
+                Dept. of {proctorProfile.department}
+              </div>
+              <div class="card-body">
+                <img
+                  class="card-img-top profile-image"
+                  src={googleProfile.imageUrl.substr(
+                    0,
+                    googleProfile.imageUrl.length - 6
+                  )}
+                  alt={proctorProfile.name}
+                />
+                <h3 class="card-title">
+                  {proctorProfile.name} - {proctorProfile.initials}
+                </h3>
+                <p class="card-title">{proctorProfile.qualifications}</p>
+                <h5 class="card-title">{proctorProfile.designation}</h5>
+                <p class="card-text">
+                  <a href={"mailto:" + proctorProfile.email}>
+                    {proctorProfile.email}
+                  </a>
+                </p>
+                <h6 class="card-text">{proctorProfile.gender}</h6>
+                <h6 class="card-text">{proctorProfile.phoneNumber}</h6>
+              </div>
+            </div>
           </div>
-          <div className="col-lg-5">
-            <p>
-              <img className="profile-image" src={proctorProfile.img}></img>
-            </p>
-          </div>
-          <div className="col-lg-1"></div>
         </div>
       </div>
     </>

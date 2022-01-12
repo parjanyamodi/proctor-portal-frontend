@@ -22,13 +22,17 @@ const MobileNavigation = (props) => {
       <GoogleLogout
         clientId="365387672860-0nufnftmst8vqpp4l2rlreje9jch3m3c.apps.googleusercontent.com"
         render={(renderProps) => (
-          <button
-            className="btn btn-danger"
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            <strong>Logout</strong>
-          </button>
+          <div className="row mt-5">
+            <div className="col-6">
+              <button
+                className="btn btn-danger"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <strong>Logout</strong>
+              </button>
+            </div>
+          </div>
         )}
         buttonText="Logout"
         onLogoutSuccess={logout}

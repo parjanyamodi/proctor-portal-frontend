@@ -18,7 +18,10 @@ const StudentDashboard = () => {
         if (dat.message === "Student Profile Not Found") {
           setstudDetail("");
         } else {
-          dat.img=googleProfile.imageUrl.substr(0, googleProfile.imageUrl.length - 6)
+          dat.img = googleProfile.imageUrl.substr(
+            0,
+            googleProfile.imageUrl.length - 6
+          );
           setstudDetail(dat);
 
           if (dat) {
@@ -43,13 +46,14 @@ const StudentDashboard = () => {
                   setStudentProctor(data);
                 }
                 if (dat) {
-                  fetch(`http://localhost:4500/student`,{
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dat)})
+                  fetch(`http://localhost:4500/student`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dat),
+                  })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log("Student Profile Updated", data)
+                      console.log("Student Profile Updated", data);
                     });
                 }
               });
@@ -78,7 +82,7 @@ const StudentDashboard = () => {
                         0,
                         googleProfile.imageUrl.length - 6
                       )}
-                      alt="Card image cap"
+                      alt={studentDetails.name}
                     />
                     <h3 class="card-title">{studentDetails.name}</h3>
                     <h5 class="card-title">{studentDetails.usn}</h5>
@@ -104,11 +108,13 @@ const StudentDashboard = () => {
                     <img
                       class="card-img-top profile-image"
                       src={studentProctor.image}
-                      alt="Card image cap"
+                      alt={studentProctor.name}
                     />
-                    <h3 class="card-title">{studentProctor.name}</h3>
+                    <h3 class="card-title">
+                      {studentProctor.name} - {studentProctor.initials}
+                    </h3>
+                    <p class="card-title">{studentProctor.qualifications}</p>
                     <h6 class="card-title">{studentProctor.designation}</h6>
-                    <h5 class="card-title">{studentProctor.qualifications}</h5>
                     <p class="card-text">
                       <a href={"mailto:" + studentProctor.email}>
                         {studentProctor.email}
@@ -120,16 +126,7 @@ const StudentDashboard = () => {
               </div>
             </div>
             <div className="row">
-              <p>
-                {Object.keys(studentAdditionalDetails).map((val, index) => {
-                  console.log(val, index);
-                  return (
-                    <>
-                      {val} : {studentAdditionalDetails[val]}
-                    </>
-                  );
-                })}
-              </p>
+              <p>{studentAdditionalDetails}</p>
             </div>
             <div className="row">
               <p></p>
