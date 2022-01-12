@@ -33,23 +33,49 @@ function Login() {
   return (
     <div>
       {gId === "" ? (
-        <GoogleLogin
-          clientId={clientId}
-          render={(renderProps) => (
-            <button
-              className="btn btn-primary"
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              <strong>Login with Google</strong>
-            </button>
-          )}
-          onSuccess={onSuccess}
-          onFailure={onFailure}
-          cookiePolicy={"single_host_origin"}
-          style={{ marginTop: "100px" }}
-          isSignedIn={true}
-        />
+        <div className="container login-app">
+          <div className="row mt-5">
+            <div className="col-lg-3"></div>
+            <div className="col-lg-6 mt-5">
+              <div class="card card-size">
+                <img
+                  src="/assets/bmsce_logo.jpeg"
+                  class="card-img-top logo-css"
+                  alt="..."
+                />
+                <hr />
+                <img
+                  src="/assets/ae5ae16a1f8bdad663c96a699d91e646.jpeg"
+                  class="card-img-top logo-css"
+                  alt="..."
+                />
+                <hr />
+                <div class="card-body">
+                  <h3>BMSCE Proctor Portal</h3>
+                  <p>Login with your College ID and Enjoy!</p>
+                  <GoogleLogin
+                    clientId={clientId}
+                    render={(renderProps) => (
+                      <button
+                        className="btn btn-primary"
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                      >
+                        <strong>Login with Google</strong>
+                      </button>
+                    )}
+                    onSuccess={onSuccess}
+                    onFailure={onFailure}
+                    cookiePolicy={"single_host_origin"}
+                    style={{ marginTop: "100px" }}
+                    isSignedIn={true}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-3"></div>
+          </div>
+        </div>
       ) : (
         <></>
       )}
