@@ -14,7 +14,7 @@ const ProctorStudents = () => {
     else if (grade === "D") return 6;
     else return 5;
   };
-  
+
   const get_sgpas = (marks) => {
     var keys = Object.keys(marks);
     keys.forEach((sem) => {
@@ -30,7 +30,7 @@ const ProctorStudents = () => {
       marks[sem].push(sgpa / credits_total);
     });
   };
-  
+
   const process_marks = (allMarks) => {
     var marks = {};
     for (const mark of allMarks) {
@@ -43,66 +43,69 @@ const ProctorStudents = () => {
     get_sgpas(marks);
     return [marks, Object.keys(marks)];
   };
-  const processStudents = (students)=> {
-    var semesters = semester
-    students.map((val)=>{
-      if(!semesters.includes(val.semester))
-        semesters.push(val.semester)
-    })
-    setSemester(semester)
-    return
-  }
-  const updateSelection =async (sid)=>{
+  const processStudents = (students) => {
+    var semesters = semester;
+    students.map((val) => {
+      if (!semesters.includes(val.semester)) semesters.push(val.semester);
+    });
+    setSemester(semester);
+    return;
+  };
+  const updateSelection = async (sid) => {
     await fetch(`http://localhost:4500/student?sid=${sid}`)
-    .then((res) => res.json())
-    .then((data)=> {
-      // console.log(data)
-      // processStudents(data)
-      var cs = selection[0]
-      cs.untouched=false
-      cs['profile'] = data
-      setSelection([cs])
-      console.log(selection)
-    })
-    if(selection[0] && selection[0]['profile'])
-    await fetch(`http://localhost:4500/student/marks?usn=${selection[0].profile.usn}`)
-    .then((res) => res.json())
-    .then((data)=> {
-      // console.log(data)
-      // processStudents(data)
-      var cs=selection[0]
-      cs['marks'] = process_marks(data)
-      setSelection([cs])
-      console.log(selection)
-    })
-    if(selection[0] && selection[0]['profile'])
-    await fetch(`http://localhost:4500/student/details?usn=${selection[0].profile.usn}`)
-    .then((res) => res.json())
-    .then((data)=> {
-      // console.log(data)
-      // processStudents(data)
-      var cs=selection[0]
-      cs['details'] = data
-      setSelection([cs])
-      console.log(selection)
-    })
-  }
-  const [semester, setSemester] = useState([])
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data)
+        // processStudents(data)
+        var cs = selection[0];
+        cs.untouched = false;
+        cs["profile"] = data;
+        setSelection([cs]);
+        console.log(selection);
+      });
+    if (selection[0] && selection[0]["profile"])
+      await fetch(
+        `http://localhost:4500/student/marks?usn=${selection[0].profile.usn}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data)
+          // processStudents(data)
+          var cs = selection[0];
+          cs["marks"] = process_marks(data);
+          setSelection([cs]);
+          console.log(selection);
+        });
+    if (selection[0] && selection[0]["profile"])
+      await fetch(
+        `http://localhost:4500/student/details?usn=${selection[0].profile.usn}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data)
+          // processStudents(data)
+          var cs = selection[0];
+          cs["details"] = data;
+          setSelection([cs]);
+          console.log(selection);
+        });
+  };
+  const [semester, setSemester] = useState([]);
   const userInfo = cookies.get("userInfo");
   const googleProfile = cookies.get("googleProfile");
-  console.log(userInfo)
-  const [students, setStudents] = useState([])
-  const [semSelection, setsemSelection] = useState("All")
-  const [selection, setSelection] = useState([{untouched: true}])
+  console.log(userInfo);
+  const [students, setStudents] = useState([]);
+  const [semSelection, setsemSelection] = useState("All");
+  const [selection, setSelection] = useState([{ untouched: true }]);
   useEffect(() => {
     fetch(`http://localhost:4500/proctor/students?pid=${userInfo.googleId}`)
-    .then((res) => res.json())
-    .then((data)=> {
-      console.log(data)
-      processStudents(data)
-      setStudents(data)
-    })
-  }, [])
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        processStudents(data);
+        setStudents(data);
+      });
+  }, []);
 
   return (
     <>
@@ -138,76 +141,58 @@ const ProctorStudents = () => {
             ) : (
               <>{/*dca*/}</>
             )}
-            
-             <div class="alert alert-light outer-box" role="alert">
+
+            {students.map((val, index) => {
+              return (
+                <div class="alert alert-light outer-box" role="alert">
                   <div class="alert alert-danger" role="alert">
                     <p>
                       <strong>
-                        <span class="pull-left">Semester </span>
-
-                        <span class="pull-right">
-                          SGPA :
-                          
-                        </span>
-                        <span class="pull-right">
-                          Total Credits :
-                          
-                          &emsp;&emsp;&emsp;&emsp;
-                        </span>
+                        <span class="pull-left">Semester : {val.semester}</span>
                       </strong>
                     </p>
                   </div>
                   <div>
-                  {
-                    semester.map((val, index)=> {
-                      return (<button type="button" onClick={()=>setsemSelection(val)}>Semester {val}</button>)
-                    })
-                  }
-                  <button type="button" onClick={()=>setsemSelection("All")}>All</button>
+                    <table class="table table-primary table-hover table-striped table-corner">
+                      <thead class="table-primary">
+                        <tr class="table-primary">
+                          <th class="table-primary" scope="col">
+                            USN
+                          </th>
+                          <th>Name</th>
+                          <th>Semester</th>
+                          <th>Details</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-primary table-corner">
+                        <tr class="table-primary">
+                          <td>{val.usn}</td>
+                          <td>{val.name}</td>
+                          <td>{val.semester}</td>
+                          <td>
+                            {
+                              <button
+                                className="btn btn-outline-dark mt-1 mb-1"
+                                onClick={() => {
+                                  updateSelection(val.sid);
+                                }}
+                              >
+                                View Details {val.sid}
+                              </button>
+                            }
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <table class="table table-danger table-hover table-striped table-corner">
-                    <thead class="table-danger">
-                      <tr class="table-danger">
-                        <th class="table-danger" scope="col">
-                          #
-                        </th>
-                        <th>
-                          Name
-                        </th>
-                        <th>
-                          Semester
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {students.map((val, index)=> {
-                        if(val.semester === semSelection | semSelection === "All")
-                        return (
-                          <>
-                          <td>
-                            {index+1}
-                          </td>
-                          <td>
-                            {val.name}
-                          </td>
-                          <td>
-                            {val.semester}
-                          </td>
-                          <td>
-                            {<button type="button" onClick={()=> {updateSelection(val.sid)}}>View Details {val.sid}</button>}
-                          </td>
-                          </>
-                        )
-                      })
+                </div>
+              );
+            })}
 
-                      }
-                    </tbody>
-                  </table>
-                </div>
-                <div>
-                  {<p>{JSON.stringify(selection)}</p>}
-                   {/* (!selection.untouched) ? <>{JSON.stringify(selection)}</>: <><p>hi</p></>} */}
-                </div>
+            <div>
+              {<p>{JSON.stringify(selection)}</p>}
+              {/* (!selection.untouched) ? <>{JSON.stringify(selection)}</>: <><p>hi</p></>} */}
+            </div>
           </div>
         </div>
       </div>
