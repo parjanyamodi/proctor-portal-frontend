@@ -173,12 +173,56 @@ const ProctorStudents = () => {
                             {
                               <button
                                 className="btn btn-outline-dark mt-1 mb-1"
-                                onClick={() => {
-                                  updateSelection(val.sid);
-                                }}
+                                data-bs-toggle="modal"
+                                data-bs-target={"#exampleModal" + val.sid}
                               >
-                                View Details {val.sid}
+                                View Details
                               </button>
+                            }
+                            {
+                              <div
+                                class="modal fade"
+                                id={"exampleModal" + val.sid}
+                                tabindex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                              >
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5
+                                        class="modal-title"
+                                        id="exampleModalLabel"
+                                      >
+                                        {val.usn}
+                                      </h5>
+                                      <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                      ></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p>Name : {val.name}</p>
+                                      <p>Semester : {val.semester}</p>
+                                      <p>Email : {val.email}</p>
+                                      <p>Gender : {val.gender}</p>
+                                      <p>Phone Number : {val.phno}</p>
+                                      <p>CGPA : {val.cgpa}</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal"
+                                      >
+                                        Close
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             }
                           </td>
                         </tr>
@@ -188,11 +232,6 @@ const ProctorStudents = () => {
                 </div>
               );
             })}
-
-            <div>
-              {<p>{JSON.stringify(selection)}</p>}
-              {/* (!selection.untouched) ? <>{JSON.stringify(selection)}</>: <><p>hi</p></>} */}
-            </div>
           </div>
         </div>
       </div>
