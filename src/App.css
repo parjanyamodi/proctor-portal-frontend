@@ -56,3 +56,24 @@
 .logo-css {
   border-radius: 100px;
 }
+.chat-right{
+  text-align: end;
+}
+.chat-left{
+  text-align: start;
+}
+.chat-time{
+  font-style: italic;
+}
+.opp-sender{
+  width: 70%;
+}
+.blo{
+  width: 30%;
+}
+.chatbox-tab{
+  overflow: hidden;
+}
+.chatbox{
+  overflow-y: scroll;
+}

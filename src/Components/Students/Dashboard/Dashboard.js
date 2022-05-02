@@ -12,7 +12,7 @@ const StudentDashboard = () => {
   const [studentProctor, setStudentProctor] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:4500/student?sid=${userInfo.googleId}`)
+    fetch(`http://192.168.0.106:4500/student?sid=${userInfo.googleId}`)
       .then((response) => response.json())
       .then((dat) => {
         if (dat.message === "Student Profile Not Found") {
@@ -23,9 +23,12 @@ const StudentDashboard = () => {
             googleProfile.imageUrl.length - 6
           );
           setstudDetail(dat);
+          cookies.set("studentInfo", dat, {
+            path: "/",
+          });
 
           if (dat) {
-            fetch(`http://localhost:4500/student/details?usn=${dat["usn"]}`)
+            fetch(`http://192.168.0.106:4500/student/details?usn=${dat["usn"]}`)
               .then((response) => response.json())
               .then((data) => {
                 if (dat.message === "Student Profile Not Found") {
@@ -37,7 +40,7 @@ const StudentDashboard = () => {
               });
           }
           if (dat) {
-            fetch(`http://localhost:4500/student/proctor?sid=${dat["sid"]}`)
+            fetch(`http://192.168.0.106:4500/student/proctor?sid=${dat["sid"]}`)
               .then((response) => response.json())
               .then((data) => {
                 console.log(data);
@@ -47,7 +50,7 @@ const StudentDashboard = () => {
                   setStudentProctor(data);
                 }
                 if (dat) {
-                  fetch(`http://localhost:4500/student`, {
+                  fetch(`http://192.168.0.106:4500/student`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(dat),

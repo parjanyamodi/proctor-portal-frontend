@@ -52,7 +52,7 @@ const ProctorStudents = () => {
     return;
   };
   const updateSelection = async (sid) => {
-    await fetch(`http://localhost:4500/student?sid=${sid}`)
+    await fetch(`http://192.168.0.106:4500/student?sid=${sid}`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data)
@@ -65,7 +65,7 @@ const ProctorStudents = () => {
       });
     if (selection[0] && selection[0]["profile"])
       await fetch(
-        `http://localhost:4500/student/marks?usn=${selection[0].profile.usn}`
+        `http://192.168.0.106:4500/student/marks?usn=${selection[0].profile.usn}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -78,7 +78,7 @@ const ProctorStudents = () => {
         });
     if (selection[0] && selection[0]["profile"])
       await fetch(
-        `http://localhost:4500/student/details?usn=${selection[0].profile.usn}`
+        `http://192.168.0.106:4500/student/details?usn=${selection[0].profile.usn}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -98,7 +98,7 @@ const ProctorStudents = () => {
   const [semSelection, setsemSelection] = useState("All");
   const [selection, setSelection] = useState([{ untouched: true }]);
   useEffect(() => {
-    fetch(`http://localhost:4500/proctor/students?pid=${userInfo.googleId}`)
+    fetch(`http://192.168.0.106:4500/proctor/students?pid=${userInfo.googleId}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
