@@ -14,7 +14,7 @@ function Login() {
   const onSuccess = (res) => {
     console.log("[Login Success] currentUser:", res.profileObj);
     setGId(res.profileObj.googleId);
-    fetch(`http://192.168.0.106:4500/user?gid=${res.profileObj.googleId}`)
+    fetch(`http://20.0.2.0:4500/user?gid=${res.profileObj.googleId}`)
       .then((response) => response.json())
       .then((data) => {
         const obj = `{ "googleId": "${data.gid}", "role": "${data.role}" }`;

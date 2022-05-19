@@ -9,7 +9,7 @@ const ProctorDashboard = () => {
   const googleProfile = cookies.get("googleProfile");
   const [proctorProfile, setproctorprofile] = useState("");
   useEffect(() => {
-    fetch(`http://192.168.0.106:4500/proctor?pid=${userInfo.googleId}`)
+    fetch(`http://20.0.2.0:4500/proctor?pid=${userInfo.googleId}`)
       .then((response) => response.json())
       .then((dat) => {
         console.log(dat);
@@ -19,7 +19,7 @@ const ProctorDashboard = () => {
         );
         setproctorprofile(dat);
         if (dat)
-          fetch(`http://192.168.0.106:4500/proctor`, {
+          fetch(`http://20.0.2.0:4500/proctor`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dat),

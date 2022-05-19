@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { typeOf } from "react-chat-engine";
 import Cookies from "universal-cookie";
+import { io } from "socket.io-client";
 
 const cookies = new Cookies();
+const socket = io("ws://20.0.2.0:4000");
 
 const ChatComponent = () => {
   const userInfo = cookies.get("userInfo");
@@ -10,19 +12,33 @@ const ChatComponent = () => {
   const studentDetail = cookies.get("studentInfo");
   const [message, setMessage] = useState([]);
   const [curMessage, setCurMessage] = useState("");
-
   useEffect(() => {
-    fetch(`http://192.168.0.106:4000/messages?pid=${studentDetail.proctor}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setMessage(data);
-        console.log(data);
-      });
-  }, []);
+    socket.on("connect", () => {
+      socket.emit(
+        "init",
+        {
+          googleId: googleProfile.googleId,
+          groupId: studentDetail.proctor,
+        },
+        (value) => {
+          setMessage(value);
+        }
+      );
+      console.log(socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      console.log(socket.id);
+    });
+    socket.on("hello", (data) => {
+      console.log(data);
+    });
+  });
 
   const handleChange = (e) => {
     setCurMessage(e.target.value);
   };
+
   const sendMessage = () => {
     var today = new Date();
     var date =
@@ -40,7 +56,7 @@ const ChatComponent = () => {
         timestamp: dateTime,
       }),
     };
-    fetch("http://192.168.0.106:4000/messages", requestOptions).then((res) => {
+    fetch("http://20.0.2.0:4001/messages", requestOptions).then((res) => {
       console.log(res);
     });
   };
@@ -52,8 +68,6 @@ const ChatComponent = () => {
         <div className="col-8 ">
           <h2>Chat Box</h2>
           <div className="chatbox">
-            {console.log(typeof chat)}
-            {console.log(typeof message)}
             {message.map((message) => {
               if (message.sender_id === googleProfile.googleId) {
                 return (
